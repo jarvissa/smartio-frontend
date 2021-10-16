@@ -32,9 +32,9 @@ const Nav = ({
   listItemProps,
   buttonProps,
   activeLinkStyle,
-  hasOnlyTitle,
-  hasOnlyIcon,
-  hasBothTitleAndIcon,
+  hasOnlyTitle = false,
+  hasOnlyIcon = false,
+  hasBothTitleAndIcon = false,
 }: React.PropsWithChildren<NavProps>) => {
   return (
     <Box as="nav" {...navProps}>

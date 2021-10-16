@@ -57,6 +57,7 @@ const Header = ({ links, toggleMenu }: HeaderProps) => {
           _active: {},
         }}
         activeLinkStyle={{ backgroundColor: "var(--chakra-colors-pink-500)" }}
+        hasOnlyTitle
       />
 
       {!user && (
