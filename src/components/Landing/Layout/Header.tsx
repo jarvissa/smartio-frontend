@@ -1,13 +1,18 @@
 import * as React from "react";
-import Nav from "../../ui/Nav";
-import { Button, IconButton } from "@chakra-ui/button";
-import { FiLogIn } from "react-icons/fi";
-import { Flex, Stack, Text } from "@chakra-ui/layout";
-import { HiMenu, HiOutlineHome } from "react-icons/hi";
-import { Image } from "@chakra-ui/image";
 import LinkInterface from "../../../interfaces/link.interface";
-import { useDisclosure } from "@chakra-ui/hooks";
 import Login from "../../Login";
+import Nav from "../../ui/Nav";
+import {
+  Button,
+  Flex,
+  IconButton,
+  Image,
+  Stack,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { FiLogIn } from "react-icons/fi";
+import { HiMenu, HiOutlineHome } from "react-icons/hi";
 import { useAuth } from "../../../hooks/useAuth";
 import { useHistory } from "react-router";
 
@@ -17,16 +22,16 @@ type HeaderProps = {
 };
 
 const Header = ({ links, toggleMenu }: HeaderProps) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const { user } = useAuth();
   const { push } = useHistory();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Flex as="header" justify="space-between" align="center" px={2} py={5}>
       <IconButton
+        variant="ghost"
         aria-label="Toggle menu"
         icon={<HiMenu size={20} />}
-        variant="ghost"
         display={{ base: "flex", md: "none" }}
         _focus={{}}
         onClick={toggleMenu}
@@ -40,6 +45,7 @@ const Header = ({ links, toggleMenu }: HeaderProps) => {
 
       <Nav
         links={links}
+        hasOnlyTitle
         navProps={{
           display: { base: "none", md: "block" },
         }}
@@ -57,7 +63,6 @@ const Header = ({ links, toggleMenu }: HeaderProps) => {
           _active: {},
         }}
         activeLinkStyle={{ backgroundColor: "var(--chakra-colors-pink-500)" }}
-        hasOnlyTitle
       />
 
       {!user && (

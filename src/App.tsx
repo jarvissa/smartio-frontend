@@ -1,11 +1,11 @@
 import * as React from "react";
+import About from "./pages/About";
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import theme from "./theme";
+import { AuthContextProvider } from "./store/auth-context";
 import { ChakraProvider } from "@chakra-ui/react";
 import { Route, Switch } from "react-router-dom";
-import About from "./pages/About";
-import { AuthContextProvider } from "./store/auth-context";
 
 export const App = () => {
   return (

@@ -3,15 +3,16 @@ import LinkInterface from "../../../interfaces/link.interface";
 import {
   Box,
   BoxProps,
+  Button,
+  ButtonProps,
+  CSSObject,
+  Icon,
   ListItem,
   ListItemProps,
   ListProps,
   UnorderedList,
-} from "@chakra-ui/layout";
-import { CSSObject } from "@chakra-ui/styled-system";
+} from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
-import { Button, ButtonProps } from "@chakra-ui/button";
-import Icon from "@chakra-ui/icon";
 
 type NavProps = {
   links: LinkInterface[];

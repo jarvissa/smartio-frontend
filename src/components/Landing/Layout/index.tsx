@@ -1,8 +1,7 @@
 import * as React from "react";
 import Header from "./Header";
 import NavDrawer from "./Drawer";
-import { Box } from "@chakra-ui/layout";
-import { useDisclosure } from "@chakra-ui/hooks";
+import { Box, useDisclosure } from "@chakra-ui/react";
 
 const links = [
   { key: "home", title: "Home", to: "/" },
@@ -18,7 +17,7 @@ const Layout = ({ children }: React.PropsWithChildren<{}>) => {
 
       <NavDrawer
         links={links}
-        drawerProps={{ isOpen, onClose, size: "full", placement: "left" }}
+        drawerProps={{ size: "full", placement: "left", isOpen, onClose }}
       />
 
       <Box as="main">{children}</Box>

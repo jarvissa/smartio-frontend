@@ -1,6 +1,17 @@
 import * as React from "react";
 import * as Yup from "yup";
+import { CgPassword } from "react-icons/cg";
+import { FaHome } from "react-icons/fa";
+import { Form, Formik } from "formik";
+import { HiEye, HiEyeOff } from "react-icons/hi";
 import {
+  Button,
+  FormControl,
+  FormErrorMessage,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
   Modal,
   ModalBody,
   ModalContent,
@@ -8,17 +19,10 @@ import {
   ModalHeader,
   ModalOverlay,
   ModalProps,
-} from "@chakra-ui/modal";
-import { Form, Formik } from "formik";
-import { FormControl, FormErrorMessage } from "@chakra-ui/form-control";
-import { Input, InputGroup, InputLeftElement } from "@chakra-ui/input";
-import { FaHome } from "react-icons/fa";
-import { CgPassword } from "react-icons/cg";
-import { Button } from "@chakra-ui/button";
-import { AuthContext } from "../../store/auth-context";
-import { InputRightElement, useToast } from "@chakra-ui/react";
-import { HiEye, HiEyeOff } from "react-icons/hi";
+  useToast,
+} from "@chakra-ui/react";
 import { useHistory } from "react-router";
+import { useAuth } from "../../hooks/useAuth";
 
 type LoginProps = {
   modalProps: Omit<ModalProps, "children">;
@@ -44,9 +48,9 @@ const LoginSchema = Yup.object().shape({
 const Login = ({ modalProps }: LoginProps) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const { login } = React.useContext(AuthContext);
+  const { login } = useAuth();
+  const { push } = useHistory();
   const toast = useToast();
-  const history = useHistory();
 
   return (
     <Modal isCentered {...modalProps}>
@@ -66,7 +70,7 @@ const Login = ({ modalProps }: LoginProps) => {
               try {
                 setLoading(true);
                 await login!(values.username, values.password);
-                history.push("/home");
+                push("/home");
               } catch (err) {
                 toast({
                   title: "Error",

@@ -1,14 +1,13 @@
 import * as React from "react";
 import Header from "./Header";
-import { Grid, GridItem, IconButton } from "@chakra-ui/react";
-import { useAuth } from "../../../hooks/useAuth";
-import { useGuard } from "../../../hooks/useAuthGuard";
-import { useHistory } from "react-router";
-import { useDisclosure } from "@chakra-ui/hooks";
 import NavDrawer from "./Drawer";
+import Sidebar from "./Sidebar";
+import { Grid, GridItem, IconButton, useDisclosure } from "@chakra-ui/react";
 import { HiHome, HiMenu } from "react-icons/hi";
 import { IoMdNotifications, IoMdSettings } from "react-icons/io";
-import Sidebar from "./Sidebar";
+import { useAuth } from "../../../hooks/useAuth";
+import { useGuard } from "../../../hooks/useGuard";
+import { useHistory } from "react-router";
 
 const links = [
   { key: "home", title: "Home", to: "/home", icon: HiHome },
@@ -38,19 +37,19 @@ const Layout = ({ children }: React.PropsWithChildren<{}>) => {
   });
 
   return user ? (
-    <Grid templateRows="1fr 3fr" templateColumns="auto 3fr 1fr">
+    <Grid templateRows="auto 4fr" templateColumns="auto 3fr 1fr">
       <NavDrawer
         links={links}
-        drawerProps={{ isOpen, onClose, size: "full", placement: "left" }}
+        drawerProps={{ size: "full", placement: "left", isOpen, onClose }}
       />
 
       <Sidebar links={links} />
 
-      <GridItem display={{ base: "flex", md: "none" }} colSpan={12}>
+      <GridItem display={{ base: "flex", lg: "none" }} colSpan={12} p={2}>
         <IconButton
+          variant="ghost"
           aria-label="Toggle menu"
           icon={<HiMenu size={20} />}
-          variant="ghost"
           _focus={{}}
           onClick={onOpen}
         />
@@ -61,15 +60,15 @@ const Layout = ({ children }: React.PropsWithChildren<{}>) => {
       <GridItem
         as="aside"
         bgColor="yellow"
-        rowSpan={{ md: 2 }}
-        colSpan={{ base: 12, md: undefined }}
-        order={{ base: 4, md: 0 }}
+        rowSpan={{ lg: 2 }}
+        colSpan={{ base: 12, lg: undefined }}
+        order={{ base: 4, lg: 0 }}
       >
         aside
       </GridItem>
 
-      <GridItem as="main" bgColor="green" colSpan={{ base: 12, md: undefined }}>
-        main
+      <GridItem as="main" bgColor="green" colSpan={{ base: 12, lg: undefined }}>
+        {children}
       </GridItem>
     </Grid>
   ) : (

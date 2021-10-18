@@ -8,7 +8,7 @@ import {
   DrawerContent,
   DrawerOverlay,
   DrawerProps,
-} from "@chakra-ui/modal";
+} from "@chakra-ui/react";
 
 type NavDrawerProps = {
   links: LinkInterface[];
@@ -26,6 +26,7 @@ const NavDrawer = ({ links, drawerProps }: NavDrawerProps) => {
         <DrawerBody display="grid" placeItems="center" p={0}>
           <Nav
             links={links}
+            hasOnlyTitle
             navProps={{ w: "full", textAlign: "center" }}
             listProps={{ listStyleType: "none", m: 0 }}
             buttonProps={{
