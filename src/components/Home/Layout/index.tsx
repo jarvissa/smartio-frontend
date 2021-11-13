@@ -8,6 +8,7 @@ import { IoMdNotifications, IoMdSettings } from "react-icons/io";
 import { useAuth } from "../../../hooks/useAuth";
 import { useGuard } from "../../../hooks/useGuard";
 import { useHistory } from "react-router";
+import Loading from "../../ui/Loading";
 
 const links = [
   { key: "home", title: "Home", to: "/home", icon: HiHome },
@@ -26,12 +27,12 @@ const links = [
 ];
 
 const Layout = ({ children }: React.PropsWithChildren<{}>) => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const { push } = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useGuard(() => {
-    if (!user) {
+    if (!user && !loading) {
       push("/");
     }
   });
@@ -72,7 +73,7 @@ const Layout = ({ children }: React.PropsWithChildren<{}>) => {
       </GridItem>
     </Grid>
   ) : (
-    <p>salam</p>
+    <Loading />
   );
 };
 

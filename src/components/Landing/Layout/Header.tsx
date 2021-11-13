@@ -1,6 +1,6 @@
 import * as React from "react";
 import LinkInterface from "../../../interfaces/link.interface";
-import Login from "../../Login";
+import Login from "../Login";
 import Nav from "../../ui/Nav";
 import {
   Button,
@@ -32,13 +32,13 @@ const Header = ({ links, toggleMenu }: HeaderProps) => {
         variant="ghost"
         aria-label="Toggle menu"
         icon={<HiMenu size={20} />}
-        display={{ base: "flex", md: "none" }}
+        display={{ base: "flex", lg: "none" }}
         _focus={{}}
         onClick={toggleMenu}
       />
 
-      <Stack direction="row" align="center" ml={{ md: 10 }}>
-        <Image src="logo.svg" boxSize={8} />
+      <Stack direction="row" align="center" ml={{ lg: 10 }}>
+        <Image src="logo.png" boxSize={8} />
 
         <Text fontWeight="bold">SmartIO</Text>
       </Stack>
@@ -47,7 +47,7 @@ const Header = ({ links, toggleMenu }: HeaderProps) => {
         links={links}
         hasOnlyTitle
         navProps={{
-          display: { base: "none", md: "block" },
+          display: { base: "none", lg: "block" },
         }}
         listProps={{
           listStyleType: "none",
@@ -68,7 +68,7 @@ const Header = ({ links, toggleMenu }: HeaderProps) => {
       {!user && (
         <Button
           variant="ssolid"
-          display={{ base: "none", md: "flex" }}
+          display={{ base: "none", lg: "flex" }}
           mr={4}
           px={10}
           onClick={onOpen}
@@ -83,7 +83,7 @@ const Header = ({ links, toggleMenu }: HeaderProps) => {
           size="lg"
           aria-label="Go home"
           icon={<HiOutlineHome />}
-          mr={{ base: 0, md: 4 }}
+          mr={{ base: 0, lg: 4 }}
           _focus={{}}
           onClick={() => push("/home")}
         />
@@ -95,7 +95,7 @@ const Header = ({ links, toggleMenu }: HeaderProps) => {
           size="lg"
           aria-label="Login"
           icon={<FiLogIn />}
-          display={{ base: "flex", md: "none" }}
+          display={{ base: "flex", lg: "none" }}
           _focus={{}}
           onClick={onOpen}
         />

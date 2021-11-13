@@ -1,47 +1,52 @@
 import * as React from "react";
-import UserInterface from "../interfaces/user.interface";
-import http from "../utils/http.util";
+import { auth, db } from "../firebase";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  User,
+} from "@firebase/auth";
+import { doc, setDoc } from "@firebase/firestore";
 
 type AuthContextType = {
-  user: UserInterface | null;
-  login: ((username: string, password: string) => Promise<void>) | null;
+  user: User | null;
+  loading: boolean;
+  signup: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<void>;
 };
 
-const getUser = () => {
-  const user = localStorage.getItem("user");
-
-  if (!user) {
-    return null;
-  } else {
-    return JSON.parse(user) as UserInterface;
-  }
-};
-
-export const AuthContext = React.createContext<AuthContextType>({
-  user: null,
-  login: null,
-});
+export const AuthContext = React.createContext<AuthContextType | null>(null);
 
 export const AuthContextProvider = ({
   children,
 }: React.PropsWithChildren<{}>) => {
-  const [user, setUser] = React.useState<UserInterface | null>(getUser());
+  const [user, setUser] = React.useState<User | null>(null);
+  const [loading, setLoading] = React.useState(true);
 
-  const save = (user: UserInterface) => {
-    setUser(user);
-    localStorage.setItem("user", JSON.stringify(user));
+  React.useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log(user);
+
+      setUser(user);
+      setLoading(false);
+      unsubscribe();
+    });
+  }, []);
+
+  const signup = async (email: string, password: string) => {
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      await setDoc(doc(db, "users", res.user.uid), { email });
+      setUser(res.user);
+    } catch (err) {
+      throw err;
+    }
   };
 
-  const login = async (username: string, password: string) => {
+  const login = async (email: string, password: string) => {
     try {
-      const { data } = await http.post<UserInterface>(
-        process.env.REACT_APP_BASE_URL + "auth/login",
-        {
-          username,
-          password,
-        }
-      );
-      save(data);
+      const res = await signInWithEmailAndPassword(auth, email, password);
+      setUser(res.user);
     } catch (err) {
       throw err;
     }
@@ -51,6 +56,8 @@ export const AuthContextProvider = ({
     <AuthContext.Provider
       value={{
         user,
+        loading,
+        signup,
         login,
       }}
     >

@@ -2,6 +2,8 @@ import * as React from "react";
 import Header from "./Header";
 import NavDrawer from "./Drawer";
 import { Box, useDisclosure } from "@chakra-ui/react";
+import { useAuth } from "../../../hooks/useAuth";
+import Loading from "../../ui/Loading";
 
 const links = [
   { key: "home", title: "Home", to: "/" },
@@ -9,9 +11,10 @@ const links = [
 ];
 
 const Layout = ({ children }: React.PropsWithChildren<{}>) => {
+  const { loading } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  return (
+  return !loading ? (
     <React.Fragment>
       <Header links={links} toggleMenu={onOpen} />
 
@@ -22,6 +25,8 @@ const Layout = ({ children }: React.PropsWithChildren<{}>) => {
 
       <Box as="main">{children}</Box>
     </React.Fragment>
+  ) : (
+    <Loading />
   );
 };
 

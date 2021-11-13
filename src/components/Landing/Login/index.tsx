@@ -1,9 +1,5 @@
 import * as React from "react";
 import * as Yup from "yup";
-import { CgPassword } from "react-icons/cg";
-import { FaHome } from "react-icons/fa";
-import { Form, Formik } from "formik";
-import { HiEye, HiEyeOff } from "react-icons/hi";
 import {
   Button,
   FormControl,
@@ -21,21 +17,21 @@ import {
   ModalProps,
   useToast,
 } from "@chakra-ui/react";
+import { FaEnvelope } from "react-icons/fa";
+import { Form, Formik } from "formik";
+import { HiEye, HiEyeOff } from "react-icons/hi";
+import { IoIosKeypad } from "react-icons/io";
+import { useAuth } from "../../../hooks/useAuth";
 import { useHistory } from "react-router";
-import { useAuth } from "../../hooks/useAuth";
 
 type LoginProps = {
   modalProps: Omit<ModalProps, "children">;
 };
 
 const LoginSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(2, ({ min }) =>
-      min === 1
-        ? `Username must be at least ${min} character`
-        : `Username must be at least ${min} characters`
-    )
-    .required("Username is a required field"),
+  email: Yup.string()
+    .email("Enter a valid email address")
+    .required("Email address is a required field"),
   password: Yup.string()
     .min(6, ({ min }) =>
       min === 1
@@ -57,24 +53,24 @@ const Login = ({ modalProps }: LoginProps) => {
       <ModalOverlay />
 
       <ModalContent>
-        <ModalHeader textAlign="center">Login to your home</ModalHeader>
+        <ModalHeader textAlign="center">Log into your home</ModalHeader>
 
         <ModalBody>
           <Formik
             initialValues={{
-              username: "",
+              email: "",
               password: "",
             }}
             validationSchema={LoginSchema}
             onSubmit={async (values, { resetForm }) => {
               try {
                 setLoading(true);
-                await login!(values.username, values.password);
+                await login!(values.email, values.password);
                 push("/home");
               } catch (err) {
                 toast({
                   title: "Error",
-                  description: "Invalid username or password",
+                  description: "Invalid user credentials",
                   status: "error",
                   position: "top-right",
                   duration: 3000,
@@ -90,25 +86,26 @@ const Login = ({ modalProps }: LoginProps) => {
               <Form id="login">
                 <FormControl
                   mb={4}
-                  isInvalid={!!props.errors.username && props.touched.username}
+                  isInvalid={!!props.errors.email && props.touched.email}
                 >
                   <InputGroup>
                     <InputLeftElement
                       pointerEvents="none"
-                      children={<FaHome />}
+                      children={<FaEnvelope />}
                     />
 
                     <Input
-                      name="username"
-                      placeholder="Username"
+                      type="email"
+                      name="email"
+                      placeholder="Email address"
                       focusBorderColor="pink.500"
-                      value={props.values.username}
+                      value={props.values.email}
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
                     />
                   </InputGroup>
 
-                  <FormErrorMessage>{props.errors.username}</FormErrorMessage>
+                  <FormErrorMessage>{props.errors.email}</FormErrorMessage>
                 </FormControl>
 
                 <FormControl
@@ -117,7 +114,7 @@ const Login = ({ modalProps }: LoginProps) => {
                   <InputGroup>
                     <InputLeftElement
                       pointerEvents="none"
-                      children={<CgPassword />}
+                      children={<IoIosKeypad />}
                     />
 
                     <Input

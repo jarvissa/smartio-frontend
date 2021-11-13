@@ -1,11 +1,21 @@
 import * as React from "react";
-import { Box, GridItem, Text } from "@chakra-ui/react";
+import AddDevice from "../AddDevice";
+import {
+  Box,
+  Button,
+  Flex,
+  GridItem,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { FaPlus } from "react-icons/fa";
 import { useAuth } from "../../../hooks/useAuth";
 
 const DATE = new Date();
 
 const Header = () => {
   const { user } = useAuth();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const date = DATE.toLocaleDateString(undefined, {
     year: "numeric",
@@ -34,40 +44,48 @@ const Header = () => {
   };
 
   return (
-    <GridItem
-      as="header"
-      display="flex"
-      justifyContent={{ base: "center", lg: "space-between" }}
-      alignItems="center"
-      colSpan={{ base: 12, lg: undefined }}
-      p={4}
-    >
-      <Box>
-        <Text fontSize="xl" textAlign={{ base: "center", lg: "left" }}>
-          {greeting()},{" "}
-          <Text as="span" fontWeight="bold">
-            {user?.username}
+    <GridItem as="header" colSpan={{ base: 12, lg: undefined }} p={4} pt={8}>
+      <Button
+        variant="ssolid"
+        leftIcon={<FaPlus />}
+        display="flex"
+        mx={{ base: "auto", lg: 0 }}
+        mb={{ base: 2, lg: 0 }}
+        onClick={onOpen}
+      >
+        Add device
+      </Button>
+
+      <Flex justify={{ base: "center", lg: "space-between" }} align="center">
+        <Box>
+          <Text fontSize="xl" textAlign={{ base: "center", lg: "left" }}>
+            {greeting()},{" "}
+            <Text as="span" fontWeight="bold">
+              {user?.displayName}
+            </Text>
           </Text>
-        </Text>
 
-        <Text
-          color="gray.500"
-          fontSize="md"
-          textAlign={{ base: "center", lg: "left" }}
-        >
-          Have a nice day!
-        </Text>
-      </Box>
+          <Text
+            color="gray.500"
+            fontSize="md"
+            textAlign={{ base: "center", lg: "left" }}
+          >
+            Have a nice day!
+          </Text>
+        </Box>
 
-      <Box display={{ base: "none", lg: "block" }}>
-        <Text fontSize="5xl" textAlign="right">
-          {time}
-        </Text>
+        <Box display={{ base: "none", lg: "block" }}>
+          <Text fontSize="5xl" textAlign="right">
+            {time}
+          </Text>
 
-        <Text mt={-2} color="gray.500" textAlign="right">
-          {date}
-        </Text>
-      </Box>
+          <Text mt={-2} color="gray.500" textAlign="right">
+            {date}
+          </Text>
+        </Box>
+      </Flex>
+
+      <AddDevice modalProps={{ isOpen, onClose }} />
     </GridItem>
   );
 };
